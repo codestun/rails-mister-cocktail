@@ -1,0 +1,8 @@
+<%= form_for [@cocktail, @dose] do |f| %>
+  <%= f.label :description %>
+  <%= f.text_field :description %>
+
+  <%= f.label :ingredient_name %>
+  <%= f.select(:ingredient_id, Ingredient.all.map {|i| [i.name, i.id] }) %>
+  <%= f.submit %>
+<% end %>
