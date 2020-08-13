@@ -6,33 +6,28 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
-# Cocktails.destroy_all
-# Dose.destroy_all
-# Ingredient.destroy_all
-
-# puts "Creating cocktails ..."
-# mojito = { name: "Mojito" }
-# margarita =  { name: "Margarita"}
-
-# [ mojito, margarita ].each do |attributes|
-#   cocktail = Cocktail.create!(attributes)
-#   puts "Created #{cockktail.name}"
-# end
-
-require 'json'
-require 'open-uri'
-
-puts 'Cleaning database...'
+puts "Cleaning database..."
+Cocktail.destroy_all
+Dose.destroy_all
 Ingredient.destroy_all
 
-puts 'Creating ingredients...'
-result = JSON.parse(open('http://www.thecocktaildb.com/api/json/v1/1/list.php?i=list').read)
-drinks = result['drinks']
+puts "Creating cocktails ..."
 
-drinks.each do |item|
-  item.each do |a, b|
-    Ingredient.create(name: b)
-  end
+%w[ mojito margarita sex_on_the_beach old_fashioned whiskey_sour daiquiri skinny_bitch batida_de_coco ].each do |cocktail|
+  cocktail = Cocktail.create!(name: cocktail.humanize)
+  puts "Created #{cocktail.name}"
 end
-puts 'Finished!'
+puts "Finished!"
+
+%w[ lemon ice mint_leaves orange apple gin vodka sprite lime whiskey cherry ].each do |ingredient|
+  ingredient = Ingredient.create!(name: ingredient.humanize)
+  puts "Created #{ingredient.name}"
+end
+puts "Finished!"
+
+Ingredient.all.each do |i|
+  Dose.create!(ingredient_id: i.id, cocktail_id: Cocktail.all.sample.id, description: "#{rand(0..80)} description")
+end
+
+# Dose.create!(ingredient_id: 1, cocktail_id: 1, description: "15 teaspons")
+# Dose.create!(ingredient_id: 2, cocktail_id: 2, description: "10 teaspons")
