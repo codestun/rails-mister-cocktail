@@ -4,4 +4,9 @@
   <%= dose.description %><%= link_to 'Destroy', cocktail_doses_path(@cocktail, dose) %>
 <% end %>
 
+<!-- app/views/cocktails/show.html.erb -->
+<% @cocktail.photos.each do |photo| %>
+  <%= cl_image_tag @cocktail.photo.key, height: 300, width: 400, crop: :fill %>
+<% end %>
+
 <p><%= link_to "Add ingredient", new_cocktail_dose_path(@cocktail) %>
